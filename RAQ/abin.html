@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>Page Title</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://chancejs.com/chance.min.js"></script>
+</head>
+<body>
+    <a id = "link1" href="" class="button">Link 1</a>
+    <a id = "link2" href="" class="button">Link 2</a>
+    <a id = "link3" href="" class="button">Link 3</a>
+    <a id = "link4" href="" class="button">Link 4</a>
+
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdk_IsqW23s3d_O4wicpXVxsCjMGr7YKeeM4QD4cUhlkJcTNw/viewform?embedded=true" width="700" height="520" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+    var links = ["https://www.google.com",
+"https://www.facebook.com","https://www.yahoo.com","https://www.gmail.com","https://www.tutorialrepublic.com","https://www.w3schools.com"]
+    var rand = chance.unique(chance.natural, 4, {min: 0, max: links.length-1});
+        $('#link1').attr("href", links[rand[0]]); // Set herf value
+    $('#link2').attr("href", links[rand[1]]);
+    $('#link3').attr("href", links[rand[2]]);
+        $('#link4').attr("href", links[rand[3]]);
+
+    });
+
+</script>
+</body>
+</html>

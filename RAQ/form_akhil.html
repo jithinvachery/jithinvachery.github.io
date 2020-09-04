@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>RAQ User Study</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://chancejs.com/chance.min.js"></script>
+      <style type="text/css">
+          iframe { margin: 15px; border:2px ;border-style: solid; overflow:hidden;}
+	.button {
+    background-color: #2f6fd6;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+      </style>
+  </head>
+  <body style="margin:25px;padding:20px;">
+<center>
+    <h1> RAQ User Study </h1>
+	<div id="loadImg"><div><img src="loading.gif" /></div></div>
+    <iframe id = "link1" src="" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0" >Loading...</iframe>
+    <h3> Hooray, Would you like to help us more? </h3>
+
+	<input class="button" type="button" value="Yes of course, give me 5 more" onClick="reload_jithin(); window.scrollTo(0,0);">
+	<input class="button" type="button" value="May be later" onClick="location.href = 'thanks.html';">
+		
+    <script type="text/javascript">
+      var links = [
+"https://docs.google.com/forms/d/e/1FAIpQLScBbBp0fBpOvzrIs8c0CrXOgvN960bAvG7P6jQmR3COM7j1FA/viewform",
+"https://docs.google.com/forms/d/e/1FAIpQLSc4dOc754Dz8POiUPn2FVKdmvgTpN5lhTWLuHnGs-bIFfTjGA/viewform",
+"https://docs.google.com/forms/d/e/1FAIpQLSdgP47dAWY8PKCQs0RPULt7REugdQDA3guVbThFJ_E22t2VSA/viewform",
+"https://docs.google.com/forms/d/e/1FAIpQLSfQRxHPrc0QN0ZrvP7d1UJXg7jhlRVjlLZ7LQawZW7SuLqiog/viewform",
+"https://docs.google.com/forms/d/e/1FAIpQLSdHIVwtYB4fZH4mt26O_uZMAjvOaz_pTgvsJpa8jcNaEf03TA/viewform"
+];
+      var rand = chance.unique(chance.natural, links.length, {min: 0, max: links.length-1});
+      var count = 0;
+
+      $(document).ready(function(){
+      reload_jithin();	
+				   });
+function reload_jithin() {
+	if (count >= links.length)
+	   window.location = 'thanks.html';
+      var myFrames=document.getElementsByTagName('iframe');
+      myFrames[0].setAttribute('src',links[rand[count]]);
+      count++;
+}
+</script>
+</center>
+  </body>
+</html>

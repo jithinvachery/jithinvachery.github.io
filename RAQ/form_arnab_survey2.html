@@ -1,0 +1,103 @@
+<html>
+<head>
+	<title>RAQ User Study</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script src="http://chancejs.com/chance.min.js"></script>
+	
+	<style type="text/css">
+	.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+   
+}
+	iframe { margin: 15px; border:2px ;border-style: solid; overflow:hidden;}
+	.button {
+		background-color: #2f6fd6;
+		border: none;
+		border-radius: 25px;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		margin: 4px 2px;
+		cursor: pointer;
+	}
+	
+		.fixed {
+    	position: fixed;
+    	top: 25%;
+    	width:inherit;
+		}
+
+	}
+
+</style>
+</head>
+<body style="margin:25px;padding:20px; >
+<div class="container-fluid">
+	<div class="row  ">
+		<div class="col-md-offset-5 col-md-7 "><h1> RAQ User Study </h1></div>
+	</div>
+	<div class="row " >
+		<div class="col-md-3">
+			<div class="row fixed ">
+				<div class="col-md-12  "><img  class="img-responsive"  src="genre.png"  alt="Smiley face"  ></div>
+				<div class="col-md-12  "><img  class="img-responsive" src="rating.png"  alt="Smiley face" > </div>
+				<div class=" col-md-offset-4 col-md-8" >
+				  <input class="button" type="button" value="Give me 1 more survey" onClick="reload_jithin(); window.scrollTo(0,0);">
+				</div>
+			</div>	
+		</div>
+		<div class="col-md-6">	
+			<iframe id = "link1" src="" height="9500px" width="100%" frameborder="0" marginheight="0" marginwidth="0" >Loading...</iframe>
+		</div>
+		<div class="col-md-3">
+			<div class="row fixed">
+				<div class="col-md-12  "><img  class="img-responsive" src="num.png"  alt="Smiley face" > </div>
+				<div class="col-md-12  "><img   class="img-responsive"  src="yob.png"  alt="Smiley face" > </div>
+			</div>	
+		</div>
+
+	</div>
+	<div class="row">	
+		
+		<div class=" col-md-offset-4 col-md-8" >
+			<h3> Hooray, Would you like to help us more? </h3>
+			<input class="button" type="button" value="Yes of course, give me 1 more" onClick="reload_jithin(); window.scrollTo(0,0);">
+			<input class="button" type="button" value="May be later" onClick="location.href = 'thanks.html';">
+		</div>
+	</div>
+	<script type="text/javascript">
+		var links = [
+		"https://docs.google.com/forms/d/e/1FAIpQLSdxxu3MhOBdIQm_tF0gvdPs8npTHHhmmu8t1OW74NRf6l49Eg/viewform",
+		"https://docs.google.com/forms/d/e/1FAIpQLSdfI3hpNHMwgXsO_edMQ2GYJrT_VURtCWxcYMNbu5NP1_vyBw/viewform",
+		"https://docs.google.com/forms/d/e/1FAIpQLSeAu_Ab7Ntps3WLzb8DclDd3etm11EDwvWglEsbTFTzbMCV6A/viewform",
+		"https://docs.google.com/forms/d/e/1FAIpQLSeR_q-lCklAJy3YeueEzxZ1JAN08faNChOgc9vWjKLOB2_LKA/viewform",
+		"https://docs.google.com/forms/d/e/1FAIpQLSeZtIY2lDw7QAxyBIv7nvPd3oXfUTN7Km_N82dfxtn-jXt1Tw/viewform",
+		"https://docs.google.com/forms/d/e/1FAIpQLScgr6ggN2yTsT4u36HZRvhDw7bmCOqOPkXv1sd34WED-hTJqQ/viewform"
+		];
+		var rand = chance.unique(chance.natural, links.length, {min: 0, max: links.length-1});
+		var count = 0;
+
+		$(document).ready(function(){
+			reload_jithin();	
+		});
+		function reload_jithin() {
+			if (count >= links.length)
+				window.location = 'thanks.html';
+			var myFrames=document.getElementsByTagName('iframe');
+			myFrames[0].setAttribute('src',links[rand[count]]);
+			count++;
+		}
+	</script>
+
+</body>
+</html>
