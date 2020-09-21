@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 walk_dir () {
     shopt -s nullglob dotglob
@@ -14,6 +14,10 @@ walk_dir () {
     done
 }
 
-DIR=.
+DIR=$1
 
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 DIRECTORY" >&2
+  exit 1
+fi
 walk_dir "$DIR"
