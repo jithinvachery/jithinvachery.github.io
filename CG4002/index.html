@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CG4002 Eval</title>
+    <style>
+    body {
+      background-image: url('images/76_bw.jpg');
+      }
+    .form-center {
+        display:flex;
+        align-items: center;
+        justify-content: center;
+        height:100vh;
+        }
+    </style>
+</head>
+<body>
+<div class="form-center">
+    <form action="/action_page.php">
+        <h2>CG4002 Eval Server</h2>
+        <label for="group_name">Group name:</label><br>
+        <select id="group_name" name="group_name">
+            <option value="B01">B01</option>
+            <option value="B02">B02</option>
+            <option value="B03">B03</option>
+            <option value="B04">B04</option>
+            <option value="B05">B05</option>
+            <option value="B06">B06</option>
+            <option value="B07">B07</option>
+            <option value="ROOT">ROOT</option>
+        </select><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" ><br>
+
+        <input type="radio" id="1_player" name="num_player" value="1" checked="checked">
+        <label for="1_player">1 player mode</label><br>
+        <input type="radio" id="2_player" name="num_player" value="2">
+        <label for="1_player">2 player mode</label><br><br>
+        <input type="submit" value="LOGIN">
+    </form>
+</div>
+</body>
+</html>
