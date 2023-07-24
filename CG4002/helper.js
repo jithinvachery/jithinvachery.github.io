@@ -4,14 +4,15 @@ function next() {
 
 function terminate() {
      //appendText("info",'Shahbaz is good');
-     change_player_state("p1", -1)
-     change_player_state("p2", 0)
+     changePlayerState("p1", -1)
+     changePlayerState("p2", 0)
 
      str  = "group_name: "+sessionStorage.group_name+"\n";
      str += "num_player: "+sessionStorage.num_player+"\n";
      str += "Password  : "+sessionStorage.password+"\n";
 
      alert (str);
+     changeText ("num_move","12/19")
   }
 
 /*
@@ -21,7 +22,7 @@ function terminate() {
      1: success colour
     -1: failure colour
 */
-function change_player_state(player, state) {
+function changePlayerState(player, state) {
     const targetElement = document.getElementById(player);
 
     //var colour = '';
@@ -50,6 +51,16 @@ function appendText(elementId, text) {
         //const textNode = document.createTextNode(text+"<br>");
         //targetElement.appendChild(textNode);
         targetElement.innerHTML = targetElement.innerHTML+ "<br>"+ text
+    } else {
+        console.error('Element with ID "${elementId}" not found.');
+    }
+}
+
+function changeText(elementId, text) {
+    const targetElement = document.getElementById(elementId);
+
+    if (targetElement) {
+        targetElement.innerHTML = text
     } else {
         console.error('Element with ID "${elementId}" not found.');
     }
