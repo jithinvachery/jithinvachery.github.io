@@ -24,14 +24,20 @@
         var num_player = document.querySelector('input[name="num_player"]:checked').value;
         var password   = document.getElementById("password").value;
 
-        str  = "group_name: "+group_name+"\n"
-        str += "num_player: "+num_player+"\n"
-        str += "Password  : "+password+"\n"
-        alert(str);
+        // store the data to persist for the session
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.group_name = group_name;
+            sessionStorage.num_player = num_player;
+            sessionStorage.password   = password;
+            location.assign(num_player+"_player.html");
+        } else {
+            alert ("Sorry, your browser does not support web storage...");
+        }
+        return false; //prevent the default behavior of the submit event
     }
 </script>
 <div class="form-center">
-    <form onsubmit="login()">
+    <form onsubmit="return login()">
         <h2>CG4002 Eval Server</h2>
         <label for="group_name">Group name:</label><br>
         <select id="group_name" name="group_name">
@@ -48,27 +54,29 @@
         <input type="password" id="password" placeholder="Eval client password"
                minlength="16" maxlength="16" required><br>
 
-        <input type="radio" id="1_player" name="num_player" value="1" checked="checked">
+        <input type="radio" id="1_player" name="num_player" value="1">
         <label for="1_player">1 player mode</label><br>
-        <input type="radio" id="2_player" name="num_player" value="2">
+        <input type="radio" id="2_player" name="num_player" value="2" checked="checked">
         <label for="1_player">2 player mode</label><br><br>
         <input type="submit" value="LOGIN">
     </form>
 </div>
-<div id="info";
-     style="display:flex;
-     align-items: center;
-    justify-content: center;
-    height:30vh;
-    border:2px solid #ccc;
-    font:16px/26px Georgia, Garamond, Serif;
-    color: silver; background: black;
-    background-color: rgba(0,0,0,.6);
-    overflow:auto;
-    margin-top: 5vh;
-    margin-right: 10vw;
-    margin-left: 10vw;">
-    Log Messages
-</div>
+
+<!--Initially planned to display log messages-->
+<!--<div id="info";-->
+<!--     style="display:flex;-->
+<!--     align-items: center;-->
+<!--    justify-content: center;-->
+<!--    height:30vh;-->
+<!--    border:2px solid #ccc;-->
+<!--    font:16px/26px Georgia, Garamond, Serif;-->
+<!--    color: silver; background: black;-->
+<!--    background-color: rgba(0,0,0,.6);-->
+<!--    overflow:auto;-->
+<!--    margin-top: 5vh;-->
+<!--    margin-right: 10vw;-->
+<!--    margin-left: 10vw;">-->
+<!--    Log Messages-->
+<!--</div>-->
 </body>
 </html>

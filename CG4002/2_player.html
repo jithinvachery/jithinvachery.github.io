@@ -18,7 +18,6 @@
     .player{
         display:flex;
         align-items: flex-end;
-        height:15vh;
         justify-content: center;
         text-align: center;
         gap: 40vw;
@@ -33,70 +32,45 @@
         font-size: 150px;
         border: 2px solid #abc;
       }
-      .button-10 {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 6px 14px;
-          font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-          border-radius: 6px;
-          border: none;
-          font-size:30px;
-          color: #fff;
-          background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
-           background-origin: border-box;
-          box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
-          user-select: none;
-          -webkit-user-select: none;
-          touch-action: manipulation;
-        }
-
-      .button-10:focus {
-          box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
-          outline: 0;
-        }
+    .button-10 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 6px 14px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+      border-radius: 6px;
+      border: none;
+      font-size:30px;
+      color: #fff;
+      background: linear-gradient(180deg, #4B91F7 0%, #367AF6 100%);
+       background-origin: border-box;
+      box-shadow: 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2);
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    .button-10:focus {
+      box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
+      outline: 0;
+    }
+    .num_move {
+        display: flex;
+        justify-content: center;
+      }
     </style>
 </head>
 <body>
-<script>
-    function next() {
-         document.getElementById("info").innerHTML = "The function fun() is triggered !";
-      }
-    function terminate() {
-         //appendText("info",'Shahbaz is good');
-         success("p1", 0)
-         success("p2", 1)
-      }
-    function success(elementId, state) {
-        const targetElement = document.getElementById(elementId);
+<script src="helper.js"></script>
 
-        if (targetElement) {
-            if (state == 0) {
-              //it is a success
-              targetElement.style.backgroundColor = '#93C572'
-            } else {
-                targetElement.style.backgroundColor = 'Salmon'
-            }
-        } else {
-            console.error('Element with ID "${elementId}" not found.');
-        }
-    }
-    function appendText(elementId, text) {
-        const targetElement = document.getElementById(elementId);
+<div class="num_move">
+    <p id="num_move"; style="text-align:center;color:white;font-size:50px;";>10/19</p>
+</div>
 
-        if (targetElement) {
-            //const textNode = document.createTextNode(text+"<br>");
-            //targetElement.appendChild(textNode);
-            targetElement.innerHTML = targetElement.innerHTML+ "<br>"+ text
-        } else {
-            console.error('Element with ID "${elementId}" not found.');
-    }
-}
-</script>
 <div class="player">
     <h1> Player 1</h1>
     <h1> Player 2</h1>
 </div>
+
 <div class="box">
     <div class="action"; id="p1">One</div>
     <div class="action"; id="p2">Two</div>
