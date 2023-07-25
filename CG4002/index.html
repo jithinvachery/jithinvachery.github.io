@@ -24,11 +24,13 @@
         var num_player = document.querySelector('input[name="num_player"]:checked').value;
         var password   = document.getElementById("password").value;
 
-        // store the data to persist for the session
         if (typeof(Storage) !== "undefined") {
+            // store the data to persist for the session
             sessionStorage.group_name = group_name;
             sessionStorage.num_player = num_player;
             sessionStorage.password   = password;
+
+            // load the game page
             location.assign(num_player+"_player.html");
         } else {
             alert ("Sorry, your browser does not support web storage...");
