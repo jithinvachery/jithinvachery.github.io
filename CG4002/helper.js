@@ -64,13 +64,16 @@ function startConnection() {
 
         switch (data.type) {
             case "info":
-                updateInfo (data.message)
+                updateInfo (data.message);
                 break;
             case "error":
-                updateInfoError (data.message)
+                updateInfoError (data.message);
+                break;
+            case "num_move":
+                changeText ("num_move", data.message);
                 break;
             default:
-                updateInfoError ("Invalid datatype received: "+data.type)
+                updateInfoError ("Invalid datatype received: "+data.type);
         }
 
     };
