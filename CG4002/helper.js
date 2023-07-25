@@ -20,9 +20,10 @@ function terminate() {
 */
 function startConnection() {
     // check if the student has logged in
-    if (sessionStorage.getItem("connection_sate") == null) {
+    if (sessionStorage.getItem("group_name") == null) {
         // we do not have user credentials
         location.assign("index.html");
+        return;
     }
 
     //const server_address = "ws://172.25.76.133:8001/"
@@ -33,7 +34,12 @@ function startConnection() {
        return;
     }
     // Let us open a web socket
-    var ws = new WebSocket(server_address);
+    const ws = new WebSocket(server_address);
+    // Listen for possible errors
+    ws.addEventListener("error", (event) => {
+        updateInfoError("WebSocket connection Failed: ");
+        alert ("Unable to connect to eval_server")
+    });
 
     ws.onopen = function() {
         // Web Socket is connected, send data using send()
@@ -42,19 +48,9 @@ function startConnection() {
         obj.num_player  = sessionStorage.num_player;
         obj.password    = sessionStorage.password;
 
-        //check to see if we are starting a new connection
-        if (sessionStorage.getItem("connection_sate") != null) {
-            obj.connection_sate = sessionStorage.connection_sate;
-            updateInfo ("Performing Handshake, new connection");
-        } else {
-            obj.connection_sate             = 0; // we are starting a new connection
-            sessionStorage.connection_sate  = 1; // indicating to the server to continue from where you left off, in the case of reconnection
-            updateInfo ("Performing Handshake, continuing from where we left off");
-        }
+        updateInfo ("Performing Handshake, new connection");
 
         // sending the handshake to server
-        // xxx delme
-        updateInfo ("Sending "+JSON.stringify(obj)+" to "+server_address)
         ws.send(JSON.stringify(obj));
     };
 
@@ -62,16 +58,19 @@ function startConnection() {
         try {
             var data = JSON.parse(evt.data);
         } catch (e) {
-            updateInfo ("Invalid Jason from Server: "+evt.data)
+            updateInfoError ("Invalid Json from Server: "+evt.data)
             return console.error(e); // error in the above string (in this case, yes)!
         }
 
         switch (data.type) {
             case "info":
-                updateInfo ("received: "+data.message)
+                updateInfo (data.message)
+                break;
+            case "error":
+                updateInfoError (data.message)
                 break;
             default:
-                updateInfo ("Invalid datatype received: "+data.type)
+                updateInfoError ("Invalid datatype received: "+data.type)
         }
 
     };
@@ -137,6 +136,15 @@ function changeText(elementId, text) {
     }
 }
 
-function updateInfo(text) {
-    appendText ("info", text)
+function updateInfoError(text) {
+    updateInfo(text, type="error");
+}
+function updateInfo(text, type="") {
+    switch (type) {
+        case "error":
+            appendText ("info", "<span style='color:red;'>"+text+"</span>");
+            break;
+        default:
+            appendText ("info", text);
+    }
 }
