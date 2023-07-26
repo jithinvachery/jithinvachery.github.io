@@ -89,7 +89,24 @@ function startConnection() {
 }
 
 /*
-    Function to change the colour of info box
+    disable a button
+*/
+function disableButton (elementId) {
+    e = document.getElementById(elementId)
+    e.classList.add('disabled');
+    e.disabled = true;
+}
+
+/*
+    enable a button
+*/
+function enableButton (elementId) {
+    e = document.getElementById(elementId);
+    e.classList.remove('disabled');
+    e.disabled = false;
+}
+/*
+    Function to change the colour of player box
     state:
      0: default colour
      1: success colour
