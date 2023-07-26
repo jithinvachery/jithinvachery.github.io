@@ -3,7 +3,6 @@ function next() {
 }
 
 function terminate() {
-     //appendText("info",'Shahbaz is good');
      changePlayerState("p1", -1)
      changePlayerState("p2", 0)
 
@@ -25,6 +24,11 @@ function startConnection() {
         location.assign("index.html");
         return;
     }
+
+    //disable all the buttons
+    disableButton('button_next')
+    disableButton('button_restart')
+    disableButton('button_terminate')
 
     //const server_address = "ws://172.25.76.133:8001/"
     const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
@@ -66,8 +70,14 @@ function startConnection() {
             case "info":
                 updateInfo (data.message);
                 break;
+            case "info_y":
+                updateInfo (data.message, type="yellow");
+                break;
+            case "info_wobr":
+                updateInfo (data.message, newline=false);
+                break;
             case "error":
-                updateInfoError (data.message);
+                updateInfo (data.message, type="error");
                 break;
             case "num_move":
                 changeText ("num_move", data.message);
@@ -134,13 +144,16 @@ function changePlayerState(player, state) {
     }
 }
 
-function appendText(elementId, text) {
+function appendText(elementId, text, newline=true) {
     const targetElement = document.getElementById(elementId);
 
     if (targetElement) {
         //const textNode = document.createTextNode(text+"<br>");
         //targetElement.appendChild(textNode);
-        targetElement.innerHTML = targetElement.innerHTML+ "<br>"+ text
+        if (newline)
+            targetElement.innerHTML = targetElement.innerHTML + "<br>"+ text
+        else
+            targetElement.innerHTML = targetElement.innerHTML + text
     } else {
         console.error('Element with ID "${elementId}" not found.');
     }
@@ -156,15 +169,15 @@ function changeText(elementId, text) {
     }
 }
 
-function updateInfoError(text) {
-    updateInfo(text, type="error");
-}
-function updateInfo(text, type="") {
+function updateInfo(text, type="", newline=true) {
     switch (type) {
         case "error":
-            appendText ("info", "<span style='color:red;'>"+text+"</span>");
+            appendText ("info", "<span style='color:red;'>"+text+"</span>", newline=newline);
+            break;
+        case "yellow":
+            appendText ("info", "<span style='color:yellow;'>"+text+"</span>", newline=newline);
             break;
         default:
-            appendText ("info", text);
+            appendText ("info", text, newline=newline);
     }
 }
