@@ -27,8 +27,6 @@ function startConnection() {
 
     //disable all the buttons
     disableButton('button_next')
-    disableButton('button_restart')
-    disableButton('button_terminate')
 
     //const server_address = "ws://172.25.76.133:8001/"
     const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
