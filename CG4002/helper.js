@@ -80,6 +80,17 @@ function startConnection() {
             case "num_move":
                 changeText ("num_move", data.message);
                 break;
+            case "position":
+                if (sessionStorage.num_player == 1) {
+                    // we do not have to display the position unless it is disconnect event
+                    if (data.pos_1 == 0)
+                        changeText ("p1", data.pos_1);
+                } else {
+                    changeText ("p1", data.pos_1);
+                    changeText ("p2", data.pos_2);
+                }
+
+                break;
             default:
                 updateInfoError ("Invalid datatype received: "+data.type);
         }
