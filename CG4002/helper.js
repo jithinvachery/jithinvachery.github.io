@@ -1,112 +1,3 @@
-function next() {
-    document.getElementById("info").innerHTML = "The function fun() is triggered !";
-}
-
-function terminate() {
-     changePlayerState("p1", -1)
-     changePlayerState("p2", 0)
-
-     str  = "group_name: "+sessionStorage.group_name+"\n";
-     str += "num_player: "+sessionStorage.num_player+"\n";
-     str += "Password  : "+sessionStorage.password+"\n";
-
-     alert (str);
-     changeText ("num_move","12/19")
-  }
-
-/*
-    function to establish the connection to the websocket
-*/
-function startConnection() {
-    // check if the student has logged in
-    if (sessionStorage.getItem("group_name") == null) {
-        // we do not have user credentials
-        location.assign("index.html");
-        return;
-    }
-
-    //disable all the buttons
-    disableButton('button_next')
-
-    //const server_address = "ws://172.25.76.133:8001/"
-    const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
-    if (!("WebSocket" in window)) {
-        // The browser doesn't support WebSocket
-       alert("WebSocket NOT supported by your Browser. \nKindly use a supporting browser!");
-       return;
-    }
-    // Let us open a web socket
-    const ws = new WebSocket(server_address);
-    // Listen for possible errors
-    ws.addEventListener("error", (event) => {
-        updateInfoError("WebSocket connection Failed: ");
-        alert ("Unable to connect to eval_server")
-    });
-
-    ws.onopen = function() {
-        // Web Socket is connected, send data using send()
-        var obj = new Object();
-        obj.group_name  = sessionStorage.group_name;
-        obj.num_player  = sessionStorage.num_player;
-        obj.password    = sessionStorage.password;
-
-        updateInfo ("Performing Handshake, new connection");
-
-        // sending the handshake to server
-        ws.send(JSON.stringify(obj));
-    };
-
-    ws.onmessage = function (evt) {
-        try {
-            var data = JSON.parse(evt.data);
-        } catch (e) {
-            updateInfoError ("Invalid Json from Server: "+evt.data)
-            return console.error(e); // error in the above string (in this case, yes)!
-        }
-
-        switch (data.type) {
-            case "info":
-                updateInfo (data.message);
-                break;
-            case "info_y":
-                updateInfo (data.message, type="yellow");
-                break;
-            case "info_wobr":
-                updateInfo (data.message, newline=false);
-                break;
-            case "error":
-                updateInfo (data.message, type="error");
-                break;
-            case "num_move":
-                changeText ("num_move", data.message);
-                break;
-            case "position":
-                if (sessionStorage.num_player == 1) {
-                    // we do not have to display the position unless it is disconnect event
-                    if (data.pos_1 == 0)
-                        changeText ("p1", data.pos_1);
-                } else {
-                    changeText ("p1", data.pos_1);
-                    changeText ("p2", data.pos_2);
-                }
-
-                break;
-            default:
-                updateInfoError ("Invalid datatype received: "+data.type);
-        }
-
-    };
-
-    ws.onclose = function() {
-      // websocket is closed.
-      alert("Connection is closed by the server");
-    };
-
-
-    //display the team name
-    changeText ("num_move", sessionStorage.group_name)
-}
-
 /*
     disable a button
 */
@@ -190,3 +81,117 @@ function updateInfo(text, type="", newline=true) {
             appendText ("info", text, newline=newline);
     }
 }
+
+function updateInfoError(text) {
+    updateInfo(text, type="error");
+}
+
+function next() {
+    // send the next instruction
+    window.ws.send("next");
+    // disable button
+    disableButton ("button_next")
+}
+
+/*
+    function to establish the connection to the websocket
+*/
+function startConnection() {
+    // check if the student has logged in
+    if (sessionStorage.getItem("group_name") == null) {
+        // we do not have user credentials
+        location.assign("index.html");
+        return;
+    }
+
+    //disable all the buttons
+    disableButton('button_next')
+
+    //const server_address = "ws://172.25.76.133:8001/"
+    const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
+    if (!("WebSocket" in window)) {
+        // The browser doesn't support WebSocket
+       alert("WebSocket NOT supported by your Browser. \nKindly use a supporting browser!");
+       return;
+    }
+    // Let us open a web socket
+    const ws = new WebSocket(server_address);
+    // Listen for possible errors
+    ws.addEventListener("error", (event) => {
+        updateInfoError("WebSocket connection Failed: ");
+        alert ("Unable to connect to eval_server")
+    });
+
+    ws.onopen = function() {
+        // Web Socket is connected, send data using send()
+        var obj = new Object();
+        obj.group_name  = sessionStorage.group_name;
+        obj.num_player  = sessionStorage.num_player;
+        obj.password    = sessionStorage.password;
+
+        updateInfo ("Performing Handshake, new connection");
+
+        // sending the handshake to server
+        ws.send(JSON.stringify(obj));
+    };
+
+    ws.onmessage = function (evt) {
+        try {
+            var data = JSON.parse(evt.data);
+        } catch (e) {
+            updateInfoError ("Invalid Json from Server: "+evt.data)
+            return console.error(e); // error in the above string (in this case, yes)!
+        }
+
+        switch (data.type) {
+            case "info":
+                updateInfo (data.message);
+                break;
+            case "info_y":
+                updateInfo (data.message, type="yellow");
+                break;
+            case "info_wobr":
+                updateInfo (data.message, newline=false);
+                break;
+            case "error":
+                updateInfo (data.message, type="error");
+                break;
+            case "num_move":
+                changeText ("num_move", data.message);
+                break;
+            case "position":
+                if (sessionStorage.num_player == 1) {
+                    // we do not have to display the position unless it is disconnect event
+                    if (data.pos_1 == 0)
+                        changeText ("p1", data.pos_1);
+                } else {
+                    changeText ("p1", data.pos_1);
+                    changeText ("p2", data.pos_2);
+                }
+                // activate the button
+                enableButton("button_next")
+                break;
+            case "action":
+                changeText ("p1", data.action_1);
+                if (sessionStorage.num_player == 2) {
+                    changeText ("p2", data.action_2);
+                }
+                break;
+            default:
+                updateInfoError ("Invalid datatype received: "+data.type);
+        }
+
+    };
+
+    ws.onclose = function() {
+      // websocket is closed.
+      alert("Connection is closed by the server");
+    };
+
+
+    //display the team name
+    changeText ("num_move", sessionStorage.group_name)
+
+    window.ws = ws
+}
+
