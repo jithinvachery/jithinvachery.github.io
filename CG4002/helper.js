@@ -18,9 +18,8 @@ function enableButton (elementId) {
 /*
     Function to change the colour of player box
     state:
-     0: default colour
-     1: success colour
-    -1: failure colour
+     0: Action matched
+     1: Action mismatched
 */
 function changePlayerState(player, state) {
     const targetElement = document.getElementById(player);
@@ -29,10 +28,10 @@ function changePlayerState(player, state) {
 
     if (targetElement) {
         switch (state) {
-            case 1:
+            case 0:
                 colour = '#93C572';
                 break;
-            case -1:
+            case 1:
                 colour = 'Salmon';
                 break;
             default:
@@ -160,6 +159,7 @@ function startConnection() {
                 changeText ("num_move", data.message);
                 break;
             case "position":
+            case "action":
                 if (sessionStorage.num_player == 1) {
                     // we do not have to display the position unless it is disconnect event
                     if (data.pos_1 == 0)
@@ -171,11 +171,13 @@ function startConnection() {
                 // activate the button
                 enableButton("button_next")
                 break;
-            case "action":
-                changeText ("p1", data.action_1);
-                if (sessionStorage.num_player == 2) {
-                    changeText ("p2", data.action_2);
-                }
+            case "action_match":
+                if (data.player_id == 1)
+                    player_id = "p1"
+                else
+                    player_id = "p2"
+                changePlayerState(player_id, data.action_match)
+                updateInfo (data.message);
                 break;
             default:
                 updateInfoError ("Invalid datatype received: "+data.type);
