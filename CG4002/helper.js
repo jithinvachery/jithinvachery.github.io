@@ -24,8 +24,6 @@ function enableButton (elementId) {
 function changePlayerState(player, state) {
     const targetElement = document.getElementById(player);
 
-    //var colour = '';
-
     if (targetElement) {
         switch (state) {
             case 0:
@@ -35,7 +33,7 @@ function changePlayerState(player, state) {
                 colour = 'Salmon';
                 break;
             default:
-                colour = 'f1f1f1';
+                colour = '#f1f1f1';
         }
         targetElement.style.backgroundColor = colour;
     } else {
@@ -79,6 +77,10 @@ function updateInfo(text, type="", newline=true) {
         default:
             appendText ("info", text, newline=newline);
     }
+
+    //scroll to the bottom
+    var info_box = document.getElementById("info");
+    info_box.scrollTop = info_box.scrollHeight;
 }
 
 function updateInfoError(text) {
@@ -159,17 +161,29 @@ function startConnection() {
                 changeText ("num_move", data.message);
                 break;
             case "position":
-            case "action":
-                if (sessionStorage.num_player == 1) {
-                    // we do not have to display the position unless it is disconnect event
-                    if (data.pos_1 == 0)
+                // activate the button sleep for some time to see the result
+                sleep(2000).then(() => {
+                    enableButton("button_next");
+                    //reset the colour of the position box
+                    changePlayerState("p1", 2)
+                    if (sessionStorage.num_player != 1)
+                        changePlayerState("p2", 2)
+                    if (sessionStorage.num_player == 1) {
+                        // we do not have to display the position unless it is disconnect event
+                        if (data.pos_1 == 0)
+                            changeText ("p1", data.pos_1);
+                    } else {
                         changeText ("p1", data.pos_1);
-                } else {
-                    changeText ("p1", data.pos_1);
+                        changeText ("p2", data.pos_2);
+                    }
+                });
+
+                break;
+            case "action":
+                changeText ("p1", data.pos_1);
+                if (sessionStorage.num_player != 1)
                     changeText ("p2", data.pos_2);
-                }
-                // activate the button
-                enableButton("button_next")
+
                 break;
             case "action_match":
                 if (data.player_id == 1)
@@ -197,3 +211,8 @@ function startConnection() {
     window.ws = ws
 }
 
+function sleep(ms) {
+    // check out the code here
+    // https://www.sitepoint.com/delay-sleep-pause-wait/
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
