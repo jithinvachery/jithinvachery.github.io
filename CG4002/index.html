@@ -23,12 +23,14 @@
         var group_name = document.getElementById("group_name").value;
         var num_player = document.querySelector('input[name="num_player"]:checked').value;
         var password   = document.getElementById("password").value;
+        var server_ip  = document.getElementById("ip_addr").value;
 
         if (typeof(Storage) !== "undefined") {
             // store the data to persist for the session
             sessionStorage.group_name = group_name;
             sessionStorage.num_player = num_player;
             sessionStorage.password   = password;
+            sessionStorage.server_ip  = server_ip;
 
             // load the game page
             location.assign(num_player+"_player.html");
@@ -41,6 +43,16 @@
 <div class="form-center">
     <form onsubmit="return login()">
         <h2>CG4002 Eval Server</h2>
+        <label for="ip_addr">Eval Server IP Addr:</label><br>
+        <input id="ip_addr" placeholder="xxx.xxx.xxx.xxx"
+               type="text" minlength="7"
+                              required><br>
+
+               <!--
+               maxlength="15" size="15"
+               pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+               required><br>
+               -->
         <label for="group_name">Group name:</label><br>
         <select id="group_name" name="group_name">
             <option value="B01">B01</option>

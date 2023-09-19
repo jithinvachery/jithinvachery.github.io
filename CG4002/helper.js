@@ -109,7 +109,9 @@ function startConnection() {
     disableButton('button_next')
 
     //const server_address = "ws://172.25.76.133:8001/"
-    const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
+    //const server_address = "ws://cg4002-i.comp.nus.edu.sg:8001/"
+    const server_address = "ws://".concat(sessionStorage.getItem("server_ip"), ":8001/")
+    alert(server_address)
     if (!("WebSocket" in window)) {
         // The browser doesn't support WebSocket
        alert("WebSocket NOT supported by your Browser. \nKindly use a supporting browser!");
